@@ -4,7 +4,8 @@
         imageUrl: String,
         price: Number,
         isFavorite: Boolean,
-        isAdded: Boolean
+        isAdded: Boolean,
+        onClickFavorite: Function
     })
 </script>
 
@@ -14,6 +15,7 @@
             :src="!isFavorite ? '/like-1.svg' : '/like-2.svg'" 
             alt="like1" 
             class="absolute top-8 left-8"
+            @click="onClickFavorite"
         >
         <img :src="imageUrl" alt="sneaker">
 

@@ -5,6 +5,8 @@ defineProps ({
   items:[]
 })
 
+const emit = defineEmits(['addToFavorites'])
+
 </script>
 
 
@@ -17,6 +19,7 @@ defineProps ({
           :isFavorite="item.isFavorite" 
           :title="item.title"
           :imageUrl="item.imageUrl" 
+          :onClickFavorite="()=>{emit('addToFavorites', item)}"
           :price="item.price"
         />
         
