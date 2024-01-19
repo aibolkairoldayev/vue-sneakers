@@ -1,5 +1,5 @@
 <script setup>
-  import { onMounted, reactive, ref, watch } from 'vue';
+  import { onMounted, provide, reactive, ref, watch } from 'vue';
   import axios from 'axios';
 
   import Header from './components/Header.vue'
@@ -7,6 +7,16 @@
   import Drawer from './components/Drawer.vue'
 
   const items = ref([]);
+
+  const drawerOpen = ref(false)
+
+  const openDrawer = () => {
+    drawerOpen.value = true
+  } 
+
+  const closeDrawer = () => {
+    drawerOpen.value = false
+  } 
 
   const filters = reactive({
     sortBy: 'title',
@@ -100,12 +110,17 @@
   
   watch (filters, fetchItems)
 
+  provide('cartActions', {
+    openDrawer,
+    closeDrawer
+  })
+
 </script>
 
 <template>
-  <!-- <Drawer/> -->
+  <Drawer v-if="drawerOpen"/>
   <div class="bg-white w-4/5 m-auto rounded-xl shadow-xl mt-14 ">
-    <Header/>
+    <Header @open-drawer="openDrawer"/>
     <div class="p-10">
       <div class="flex justify-between">
         <h2 class="text-3xl font-bold mb-8">All sneakers</h2>
