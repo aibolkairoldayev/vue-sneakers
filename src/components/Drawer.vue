@@ -1,6 +1,10 @@
 <script setup>
     import DrawerHead from './DrawerHead.vue'
     import CartItemList from './CartItemList.vue'
+
+    defineProps({
+        totalPrice: Number
+    })
 </script>
 
 <template>
@@ -13,13 +17,13 @@
             <div class="flex gap-2">
                 <span>Итого:</span>
                 <div class="flex-1 border-b border-dashed"></div>
-                <b>12 300руб.</b>
+                <b>{{totalPrice}} тг</b>
             </div>
 
             <div class="flex gap-2">
                 <span>Налог 5%</span>
                 <div class="flex-1 border-b border-dashed"></div>
-                <b>900 руб.</b>
+                <b>{{ totalPrice * .05 }} тг</b>
             </div>
 
             <button disabled="" class="mt-4 bg-lime-500 w-full rounded-xl py-3 text-white transition 

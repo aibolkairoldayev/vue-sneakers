@@ -5,7 +5,8 @@
         price: Number,
         isFavorite: Boolean,
         isAdded: Boolean,
-        onClickFavorite: Function
+        onClickFavorite: Function,
+        onClickAdd: Function
     })
 </script>
 
@@ -24,10 +25,10 @@
         <div class="flex justify-between mt-5">
             <div class="flex flex-col">
                 <span class="text-s;ate-400">Price</span>
-                <b>{{ price }}</b>
+                <b>{{ price }} тг</b>
             </div>
 
-            <img :src="!isAdded ? '/plus.svg' : '/checked.svg'" alt="plus">
+            <img @click="onClickAdd" :src="!isAdded ? '/plus.svg' : '/checked.svg'" alt="plus">
         </div>
     </div>
 </template>

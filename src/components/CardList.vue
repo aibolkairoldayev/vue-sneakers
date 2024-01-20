@@ -5,7 +5,7 @@ defineProps ({
   items:[]
 })
 
-const emit = defineEmits(['addToFavorites'])
+const emit = defineEmits(['addToFavorites, addToCart'])
 
 </script>
 
@@ -15,11 +15,12 @@ const emit = defineEmits(['addToFavorites'])
         <Card 
           v-for="item in items"
           :key="item.id"
-          isAdded="true" 
+          :isAdded="item.isAdded" 
           :isFavorite="item.isFavorite" 
           :title="item.title"
           :imageUrl="item.imageUrl" 
           :onClickFavorite="()=>{emit('addToFavorites', item)}"
+          :onClickAdd="()=>{emit('addToCart', item)}"
           :price="item.price"
         />
         
