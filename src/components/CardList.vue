@@ -2,10 +2,12 @@
 import Card from './Card.vue'
 
 defineProps ({
-  items:[]
+  items: {
+    type:Array,
+  }
 })
 
-const emit = defineEmits(['addToFavorites, addToCart'])
+const emit = defineEmits(['addToFavorites', 'addToCart'])
 
 </script>
 

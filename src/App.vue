@@ -8,10 +8,15 @@
 
   const items = ref([]);
   const cart = ref([]);
+  const isCreatingOrder = ref(false)
 
   const drawerOpen = ref(false)
 
   const totalPrice = computed(()=> cart.value.reduce((acc, item )=>acc + item.price, 0))
+
+  const cartIsEmpty = computed(()=> cart.value.length===0)
+
+  const cartButtonDisabled = computed(()=> isCreatingOrder.value || cartIsEmpty.value)
 
   const openDrawer = () => {
     drawerOpen.value = true
@@ -34,6 +39,25 @@
   const removeFromCart = (item) => {
     cart.value.splice(cart.value.indexOf(item), 1)
     item.isAdded = false
+  }
+
+  const createOrder = async ()=> {
+    try{
+      isCreatingOrder.value = true
+
+      const {data} = await axios.post('https://7687af431bcf909f.mokky.dev/orders', {
+        items: cart.value,
+        totalPrice: totalPrice.value
+      })
+
+      cart.value=[]
+
+      return data
+    } catch(err) {
+      console.log(err)
+    } finally {
+      isCreatingOrder.value = true
+    }
   }
 
   const onClickAddPlus = (item) => {
@@ -125,11 +149,34 @@
   }
 
   onMounted(async ()=> {
+    const localCart = localStorage.getItem('cart')
+    cart.value = localCart ? JSON.parse(localCart) : []
+
     await fetchItems()
     await  fetchFavorites()
+
+    items.value = items.value.map((item)=> ({
+      ...item,
+      isAdded: cart.value.some((cartItem)=>cartItem.id === item.id)
+    }))
   })
   
   watch (filters, fetchItems)
+
+  watch(cart, ()=>{
+    items.value = items.value.map((item)=>({
+      ...item,
+      isAdded: false
+    }))
+  })
+
+  watch(
+    cart,
+    ()=> {
+      localStorage.setItem('cart', JSON.stringify(cart.value))
+    },
+    {deep:true}
+  )
 
   provide('cart', {
     cart,
@@ -141,7 +188,7 @@
 </script>
 
 <template>
-  <Drawer v-if="drawerOpen" :totalPrice="totalPrice"/>
+  <Drawer v-if="drawerOpen" :totalPrice="totalPrice" @create-order="createOrder" :button-disabled="cartButtonDisabled"/>
   <div class="bg-white w-4/5 m-auto rounded-xl shadow-xl mt-14 ">
     <Header @open-drawer="openDrawer" :totalPrice="totalPrice"/>
     <div class="p-10">
@@ -167,7 +214,7 @@
         </div>
       </div>
       <div class="mt-10">
-        <CardList :items="items" @addToFavorites="addToFavorites" @add-to-cart="onClickAddPlus"/>
+        <CardList :items="items" @addToFavorites="addToFavorites" @addToCart="onClickAddPlus"/>
       </div>
     </div>
   </div>

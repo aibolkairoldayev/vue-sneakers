@@ -18,7 +18,7 @@
             class="absolute top-8 left-8"
             @click="onClickFavorite"
         >
-        <img :src="imageUrl" alt="sneaker">
+        <img class="max-w-64" :src="imageUrl" alt="sneaker">
 
         <p class="mt-2">{{ title }}</p>
 
