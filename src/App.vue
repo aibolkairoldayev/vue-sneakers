@@ -196,7 +196,7 @@
         <h2 class="text-3xl font-bold mb-8">All sneakers</h2>
 
         <div class="flex gap-4">
-          <select @change="onChangeSelect" class="py-2 px-3 border rounded-md outline-none" name="" id="">
+          <select @change="onChangeSelect" class="py-2 px-3 border rounded-md outline-none max-h-11" name="" id="">
             <option value="name">По названию</option>
             <option value="price">Сначала дешевые</option>
             <option value="-price">Сначала дорогие</option>
