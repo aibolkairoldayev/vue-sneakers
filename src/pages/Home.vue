@@ -2,6 +2,7 @@
     import CardList from '../components/CardList.vue'
 
     import axios from 'axios';
+    import debounce from 'lodash.debounce'
     import { computed, inject, onMounted, provide, reactive, ref, watch } from 'vue';
 
     const items = ref([]);
@@ -65,7 +66,7 @@
       const {data: favorites} = await axios.get('https://7687af431bcf909f.mokky.dev/favorites')
 
       items.value = items.value.map((item) => {
-        const favorite = favorites.find((favorite)=>favorite.parentId === item.id)
+        const favorite = favorites.find((favorite)=>favorite.item_id === item.id)
 
         if(!favorite) {
           return item
@@ -86,7 +87,7 @@
     try{
       if(!item.isFavorite) {
         const obj = {
-          parentId: item.id
+          item_id: item.id
         }
 
         item.isFavorite = true
@@ -113,9 +114,9 @@
     filters.sortBy = event.target.value
   }
 
-  const onChangeSearchInput = (event) => {
+  const onChangeSearchInput = debounce((event) => {
     filters.searchQuery = event.target.value
-  }
+  }, 500)
 
     const {cart, removeFromCart} = inject('cart')
 
@@ -132,7 +133,7 @@
 
 <template>
     <div class="flex justify-between">
-        <h2 class="text-3xl font-bold mb-8">All sneakers</h2>
+        <h2 class="text-3xl font-bold mb-8">Вск кроссовки</h2>
 
         <div class="flex gap-4">
           <select @change="onChangeSelect" class="py-2 px-3 border rounded-md outline-none max-h-11" name="" id="">

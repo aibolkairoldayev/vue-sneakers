@@ -13,6 +13,7 @@
 <template>
     <div class="relative border bg-white border-slate-100 rounded-3xl p-8 cursor-pointer transition hover:-translate-y-2 hover:shadow-xl" >
         <img 
+            v-if="onClickFavorite"
             :src="!isFavorite ? '/like-1.svg' : '/like-2.svg'" 
             alt="like1" 
             class="absolute top-8 left-8"
@@ -28,7 +29,7 @@
                 <b>{{ price }} тг</b>
             </div>
 
-            <img @click="onClickAdd" :src="!isAdded ? '/plus.svg' : '/checked.svg'" alt="plus">
+            <img @click="onClickAdd" v-if="onClickAdd" :src="!isAdded ? '/plus.svg' : '/checked.svg'" alt="plus">
         </div>
     </div>
 </template>
